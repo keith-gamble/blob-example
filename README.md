@@ -21,7 +21,7 @@ ___
     ```sh
     ./initialize.sh
     ```
-1.  In a web browser, access the gateway at [http://<project-name>.localtest.me](http://<project-name>.localtest.me)
+1.  In a web browser, access the gateway at [http://blob.localtest.me](http://blob.localtest.me)
 
 ## Pre-Configured Database
 
