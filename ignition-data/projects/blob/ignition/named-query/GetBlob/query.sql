@@ -1,1 +1,1 @@
-SELECT TOP 1 [Blob] from BlobData WHERE [Name] = :name
+SELECT TOP 1 [Blob], [FileType] from BlobData WHERE [Name] = :name

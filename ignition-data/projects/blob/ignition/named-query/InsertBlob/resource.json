@@ -18,7 +18,7 @@
     "cacheEnabled": false,
     "database": "",
     "fallbackEnabled": false,
-    "lastModificationSignature": "d5a5d5e47249778ece3fd9992c87d19a01f52dbfb15de0eea820438b75e476a4",
+    "lastModificationSignature": "605edfe1c346ff02c2c846b098cf5d1338b17ca9ba739c815419f16d4f5eacde",
     "permissions": [
       {
         "zone": "",
@@ -27,7 +27,7 @@
     ],
     "lastModification": {
       "actor": "admin",
-      "timestamp": "2023-11-21T23:28:26Z"
+      "timestamp": "2023-11-22T00:26:36Z"
     },
     "parameters": [
       {
@@ -39,6 +39,11 @@
         "type": "Parameter",
         "identifier": "blob",
         "sqlType": 20
+      },
+      {
+        "type": "Parameter",
+        "identifier": "fileType",
+        "sqlType": 7
       }
     ]
   }

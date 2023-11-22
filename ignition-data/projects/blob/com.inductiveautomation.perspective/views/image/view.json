@@ -1,9 +1,42 @@
 {
   "custom": {
+    "imageBytes": {
+      "$": [
+        "ds",
+        192,
+        1700613681476
+      ],
+      "$columns": [
+        {
+          "data": [
+            "NDA0IE5PVCBGT1VORA\u003d\u003d"
+          ],
+          "name": "Blob",
+          "type": "byte[]"
+        }
+      ]
+    },
     "imageName": "example"
   },
   "params": {},
   "propConfig": {
+    "custom.imageBytes": {
+      "binding": {
+        "config": {
+          "parameters": {
+            "name": "{view.custom.imageName}"
+          },
+          "polling": {
+            "enabled": true,
+            "rate": "5"
+          },
+          "queryPath": "GetBlobNotScalar",
+          "returnFormat": "dataset"
+        },
+        "type": "query"
+      },
+      "persistent": true
+    },
     "custom.imageName": {
       "persistent": true
     }
@@ -60,7 +93,7 @@
           "component": {
             "onFileReceived": {
               "config": {
-                "script": "\n\tfile_bytes \u003d event.file.getBytes()\n\tparams \u003d {\n\t\t\"name\": self.view.custom.imageName,\n\t\t\"blob\": file_bytes\n\t}\n\tsystem.db.runNamedQuery(\"InsertBlob\", params)\n\tsystem.perspective.sendMessage(\"updateImage\", scope\u003d\"view\")"
+                "script": "\n\tfile_bytes \u003d event.file.getBytes()\n\n\timport mimetypes\n\t\n\tmime_type \u003d mimetypes.guess_type(str(event.file.name))[0]\n\t\n\tif mime_type is None:\n\t\tsystem.perspective.print(\"Shit didnt work with: %s\" % event.file.name)\n\t\treturn\n\t\n\tsystem.perspective.print(mime_type)\n\tparams \u003d {\n\t\t\"name\": self.view.custom.imageName,\n\t\t\"blob\": file_bytes,\n\t\t\"fileType\": mime_type\n\t}\n\tsystem.db.runNamedQuery(\"InsertBlob\", params)\n\tsystem.perspective.sendMessage(\"updateImage\", scope\u003d\"view\")"
               },
               "scope": "G",
               "type": "script"
@@ -73,14 +106,40 @@
         "position": {
           "basis": "145px"
         },
+        "props": {
+          "supportedFileTypes": [
+            "png",
+            "svg",
+            "jpeg"
+          ]
+        },
         "type": "ia.input.fileupload"
+      },
+      {
+        "meta": {
+          "name": "Label"
+        },
+        "position": {
+          "basis": "32px"
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "config": {
+                "path": "../Image.props.source"
+              },
+              "type": "property"
+            }
+          }
+        },
+        "type": "ia.display.label"
       },
       {
         "events": {
           "dom": {
             "onClick": {
               "config": {
-                "script": "\tsystem.perspective.sendMessage(\"updateImage\", scope\u003d\"view\")"
+                "script": "\timport mimetypes\n\tsystem.perspective.print(mimetypes.guess_type(\u0027image.png\u0027))\n\t\n\tsystem.perspective.sendMessage(\"updateImage\", scope\u003d\"view\")"
               },
               "scope": "G",
               "type": "script"
@@ -117,7 +176,7 @@
             {
               "messageType": "updateImage",
               "pageScope": false,
-              "script": "\tself.props.source \u003d \"\"\n\timport time\n\ttime.sleep(1.5)\n\tself.refreshBinding(\"props.source\")",
+              "script": "\tself.props.source \u003d \"\"\n\timport time\n\ttime.sleep(1.5)\n\tsystem.util.getLogger(\"Image\").info(\"Requesting image for: %s\" % self.view.custom.imageName)\n\tself.refreshBinding(\"props.source\")",
               "sessionScope": false,
               "viewScope": true
             }

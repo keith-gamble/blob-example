@@ -12,13 +12,13 @@
     "fallbackValue": "",
     "maxReturnSize": 100,
     "cacheUnit": "SEC",
-    "type": "ScalarQuery",
+    "type": "Query",
     "enabled": true,
     "cacheAmount": 1,
     "cacheEnabled": false,
     "database": "",
     "fallbackEnabled": false,
-    "lastModificationSignature": "184e9ab3ef5e65cce8a5e01b91ddcd95c66dda30a12415ef0db433dea06cc950",
+    "lastModificationSignature": "d00d8a3678c51a4df94b77bde499bd4968821fc83da9e72550a9ef074a2e35a3",
     "permissions": [
       {
         "zone": "",
@@ -27,7 +27,7 @@
     ],
     "lastModification": {
       "actor": "admin",
-      "timestamp": "2023-11-21T23:31:44Z"
+      "timestamp": "2023-11-22T00:14:49Z"
     },
     "parameters": [
       {
