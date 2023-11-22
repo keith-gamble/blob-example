@@ -1,0 +1,140 @@
+{
+  "custom": {
+    "imageName": "example"
+  },
+  "params": {},
+  "propConfig": {
+    "custom.imageName": {
+      "persistent": true
+    }
+  },
+  "props": {},
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Label"
+            },
+            "position": {
+              "basis": "50px",
+              "grow": 1
+            },
+            "props": {
+              "text": "Image Name"
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "TextField"
+            },
+            "position": {
+              "grow": 1
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "bidirectional": true,
+                    "path": "view.custom.imageName"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "type": "ia.input.text-field"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "basis": "32px"
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "events": {
+          "component": {
+            "onFileReceived": {
+              "config": {
+                "script": "\n\tfile_bytes \u003d event.file.getBytes()\n\tparams \u003d {\n\t\t\"name\": self.view.custom.imageName,\n\t\t\"blob\": file_bytes\n\t}\n\tsystem.db.runNamedQuery(\"InsertBlob\", params)\n\tsystem.perspective.sendMessage(\"updateImage\", scope\u003d\"view\")"
+              },
+              "scope": "G",
+              "type": "script"
+            }
+          }
+        },
+        "meta": {
+          "name": "FileUpload"
+        },
+        "position": {
+          "basis": "145px"
+        },
+        "type": "ia.input.fileupload"
+      },
+      {
+        "events": {
+          "dom": {
+            "onClick": {
+              "config": {
+                "script": "\tsystem.perspective.sendMessage(\"updateImage\", scope\u003d\"view\")"
+              },
+              "scope": "G",
+              "type": "script"
+            }
+          }
+        },
+        "meta": {
+          "name": "Image"
+        },
+        "position": {
+          "basis": "100px",
+          "grow": 1
+        },
+        "propConfig": {
+          "props.source": {
+            "binding": {
+              "config": {
+                "path": "view.custom.imageName"
+              },
+              "transforms": [
+                {
+                  "code": "\treturn \"/system/webdev/blob/images/%s\" % value",
+                  "type": "script"
+                }
+              ],
+              "type": "property"
+            }
+          }
+        },
+        "scripts": {
+          "customMethods": [],
+          "extensionFunctions": null,
+          "messageHandlers": [
+            {
+              "messageType": "updateImage",
+              "pageScope": false,
+              "script": "\tself.props.source \u003d \"\"\n\timport time\n\ttime.sleep(1.5)\n\tself.refreshBinding(\"props.source\")",
+              "sessionScope": false,
+              "viewScope": true
+            }
+          ]
+        },
+        "type": "ia.display.image"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "backgroundColor": "peachpuff"
+      }
+    },
+    "type": "ia.container.flex"
+  }
+}

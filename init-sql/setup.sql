@@ -20,3 +20,11 @@ USE DEFAULT_DB;
 CREATE USER Ignition FOR LOGIN Ignition;
 ALTER ROLE db_owner ADD MEMBER Ignition;
 GO
+
+
+
+-- Create a table to store our blob data with a name and a blob
+CREATE TABLE [dbo].[BlobData] (
+	[Name] [nvarchar](50) NOT NULL,
+	[Blob] [varbinary](max) NOT NULL
+);
